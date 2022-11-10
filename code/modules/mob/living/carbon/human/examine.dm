@@ -248,9 +248,6 @@
 		if(DISGUST_LEVEL_DISGUSTED to INFINITY)
 			msg += "[t_He] look[p_s()] extremely disgusted.\n"
 
-	if(water < THIRST_LEVEL_HARD - 50)
-		msg += "[t_He] [t_is] severely dehydrated.\n"
-
 	var/apparent_blood_volume = blood_volume
 	if(dna.species.use_skintones && skin_tone == "albino")
 		apparent_blood_volume -= 150 // enough to knock you down one tier
@@ -297,10 +294,10 @@
 
 			bleed_text += "!</B>\n"
 		msg += bleed_text.Join()
-
+/*
 	if(reagents.has_reagent(/datum/reagent/teslium))
 		msg += "[t_He] [t_is] emitting a gentle blue glow!\n"
-
+*/
 	if(islist(stun_absorption))
 		for(var/i in stun_absorption)
 			if(stun_absorption[i]["end_time"] > world.time && stun_absorption[i]["examine_message"])

@@ -285,15 +285,13 @@
 	fire_delay = GUN_FIRE_DELAY_FAST
 	autofire_shot_delay = GUN_AUTOFIRE_DELAY_FAST
 	burst_shot_delay = GUN_BURSTFIRE_DELAY_FAST
-	burst_size = 1
 	damage_multiplier = GUN_LESS_DAMAGE_T2
 	cock_delay = GUN_COCK_RIFLE_BASE
 	init_firemodes = list(
-		BURST_5_ROUND
+		SEMI_AUTO_NODELAY,
+		FULL_AUTO_300
 	)
 
-	automatic = 1
-	is_automatic = TRUE
 	can_suppress = TRUE
 	suppressor_state = "uzi_suppressor"
 	suppressor_x_offset = 29
@@ -949,8 +947,8 @@
 	icon_state = "combat_rifle"
 	item_state = "combatrifle"
 	icon_prefix = "combatrifle"
-	mag_type = /obj/item/ammo_box/magazine/tommygunm45
-	init_mag_type = /obj/item/ammo_box/magazine/tommygunm45/stick
+	mag_type = /obj/item/ammo_box/magazine/greasegun
+	init_mag_type = /obj/item/ammo_box/magazine/greasegun
 
 	slowdown = GUN_SLOWDOWN_CARBINE
 	force = GUN_MELEE_FORCE_RIFLE_LIGHT
@@ -1371,10 +1369,8 @@
 	slowdown = GUN_SLOWDOWN_RIFLE_MEDIUM_SEMI
 	force = GUN_MELEE_FORCE_RIFLE_HEAVY
 	draw_time = GUN_DRAW_LONG
-	fire_delay = GUN_FIRE_DELAY_NORMAL
+	fire_delay = 4
 	autofire_shot_delay = GUN_AUTOFIRE_DELAY_FAST
-	burst_shot_delay = GUN_BURSTFIRE_DELAY_FAST
-	burst_size = 1
 	damage_multiplier = GUN_EXTRA_DAMAGE_T1
 	cock_delay = GUN_COCK_RIFLE_BASE
 	weapon_weight = GUN_TWO_HAND_ONLY
@@ -2292,10 +2288,7 @@
 	force = GUN_MELEE_FORCE_RIFLE_HEAVY
 	weapon_weight = GUN_TWO_HAND_ONLY
 	draw_time = GUN_DRAW_LONG
-	fire_delay = GUN_FIRE_DELAY_NORMAL
 	autofire_shot_delay = GUN_AUTOFIRE_DELAY_FAST
-	burst_shot_delay = GUN_BURSTFIRE_DELAY_FAST
-	burst_size = 1
 	damage_multiplier = GUN_EXTRA_DAMAGE_T2
 	cock_delay = GUN_COCK_RIFLE_BASE
 	init_recoil = RIFLE_RECOIL(1)
@@ -2320,16 +2313,12 @@
 	force = GUN_MELEE_FORCE_RIFLE_HEAVY
 	weapon_weight = GUN_TWO_HAND_ONLY
 	draw_time = GUN_DRAW_LONG
-	fire_delay = GUN_FIRE_DELAY_NORMAL
 	autofire_shot_delay = GUN_AUTOFIRE_DELAY_FAST
-	burst_shot_delay = GUN_BURSTFIRE_DELAY_FAST
-	burst_size = 1
 	damage_multiplier = GUN_EXTRA_DAMAGE_T2
 	cock_delay = GUN_COCK_RIFLE_BASE
 	init_recoil = RIFLE_RECOIL(1)
 
 	zoom_factor = 1.2
-	fire_delay = 0.5
 	can_scope = FALSE
 
 /* * * * * * * * * * *
@@ -2371,11 +2360,11 @@
  * * * * * * * * * * */
 
 /obj/item/gun/ballistic/automatic/marksman/sniper/snipervenator
-	name = "assassin sniper rifle"
+	name = "speculator sniper rifle"
 	desc = "The customized sniper rifle, fitted with a telescopic sight for extreme accuracy and chambered for a high-ballistic performance centerfire cartridge. It is a superior version of the regular sniper rifle and is decorated with the flag of the bull and tokens of a hunt."
-	icon = 'icons/fallout/objects/guns/ballistic.dmi'
 	lefthand_file = 'icons/fallout/onmob/weapons/guns_lefthand.dmi'
 	righthand_file = 'icons/fallout/onmob/weapons/guns_righthand.dmi'
+	icon = 'icons/fallout/objects/guns/ballistic.dmi'
 	mob_overlay_icon = 'icons/fallout/onmob/backslot_weapon.dmi'
 	icon_state = "venator_sniper"
 	item_state = "venator_sniper"

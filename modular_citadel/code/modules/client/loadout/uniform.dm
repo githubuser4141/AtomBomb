@@ -678,6 +678,70 @@
 	restricted_desc = "KHAN"
 	restricted_roles = list("Great Khan")
 
+/// Brotherhood of Steel 
+
+/datum/gear/uniform/bos
+	name = "midwestern fatigues"
+	subcategory = LOADOUT_SUBCATEGORY_UNIFORM_FACTIONS
+	path = /obj/item/clothing/under/syndicate/brotherhood/midwestern
+	restricted_desc = "BoS"
+	restricted_roles = list(
+							"Head Paladin",
+							"Knight-Captain",
+							"Head Scribe",
+							"Senior Paladin",
+							"Senior Knight",
+							"Senior Scribe",
+							"Paladin",
+							"Knight",
+							"Scribe",
+							"Initiate",
+							"Brotherhood Off-Duty"
+	)
+
+/// Legion
+
+/datum/gear/uniform/legion
+	name = "camp follower male robe"
+	subcategory = LOADOUT_SUBCATEGORY_UNIFORM_FACTIONS
+	path = /obj/item/clothing/under/f13/campfollowermale
+	restricted_desc = "Legion Camp Duties"
+	restricted_roles = list("Legion Off-Duty",
+							"Camp Follower"
+							)
+
+/datum/gear/uniform/legion/female
+	name = "camp follower female robe"
+	path = /obj/item/clothing/under/f13/campfollowerfemale
+	restricted_desc = "Legion Camp Duties"
+	restricted_roles = list("Legion Off-Duty",
+							"Camp Follower"
+							)
+
+/datum/gear/uniform/legion/auxilia
+	name = "male auxilia robes"
+	path = /obj/item/clothing/under/f13/legauxilia
+	restricted_desc = "Legion Camp Duties"
+	restricted_roles = list("Legion Off-Duty",
+							"Camp Follower"
+							)
+
+/datum/gear/uniform/legion/auxiliaf
+	name = "female auxilia robes"
+	path = /obj/item/clothing/under/f13/legauxiliaf
+	restricted_desc = "Legion Camp Duties"
+	restricted_roles = list("Legion Off-Duty",
+							"Camp Follower"
+							)
+
+/datum/gear/uniform/legion/roma
+	name = "roma auxilia robes"
+	path = /obj/item/clothing/under/f13/romaskirt/auxilia
+	restricted_desc = "Legion Camp Duties"
+	restricted_roles = list("Legion Off-Duty",
+							"Camp Follower"
+							)
+
 //Skirts
 
 /datum/gear/uniform/skirt/white
@@ -871,6 +935,18 @@
 /datum/gear/uniform/wasteland/marlowduds
 	name = "Marlow gang attire"
 	path = /obj/item/clothing/under/f13/marlowduds
+	cost = 1
+	subcategory = LOADOUT_SUBCATEGORY_UNIFORM_WASTELAND
+
+/datum/gear/uniform/wasteland/schlimmsuit
+	name = "Foreign gentleman's attire"
+	path = /obj/item/clothing/under/f13/schlimmsuit
+	cost = 1
+	subcategory = LOADOUT_SUBCATEGORY_UNIFORM_WASTELAND
+
+/datum/gear/uniform/wasteland/ahp_uniform
+	name = "Highway patrol uniform"
+	path = /obj/item/clothing/under/f13/ahp_uniform
 	cost = 1
 	subcategory = LOADOUT_SUBCATEGORY_UNIFORM_WASTELAND
 

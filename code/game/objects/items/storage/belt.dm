@@ -597,6 +597,12 @@
 	icon_state = "assaultbelt"
 	item_state = "security"
 
+/obj/item/storage/belt/military/waster
+	name = "leather belt"
+	desc = "A ragtag belt used by wasters."
+	icon_state = "cowboy"
+	item_state = "survival"
+
 /obj/item/storage/belt/military/legion
 	name = "legionnaire marching belt"
 	desc = "A belt capable of holding the necessities of a legionnaire."
@@ -624,6 +630,7 @@
 /obj/item/storage/belt/webbing
 	name = "chest rig"
 	desc = "A tactical webbing vest to hold all your gear."
+	mob_overlay_icon = 'icons/fallout/onmob/clothes/belt.dmi'
 	icon_state = "militarywebbing"
 	item_state = "militarywebbing"
 	slot_flags = ITEM_SLOT_NECK
@@ -646,6 +653,12 @@
 	icon_state = "explorer2"
 	item_state = "explorer2"
 
+/obj/item/storage/belt/webbing/security /// Darker chest rig does the same as the rest, more for flavor
+	name = "security chest rig"
+	desc = "A tactical webbing made out of reinforced kevlar to hold all your gear."
+	icon_state = "securitywebbing"
+	item_state = "securitywebbing"
+
 ////////////////
 // Bandoliers //
 ////////////////
@@ -653,6 +666,8 @@
 /obj/item/storage/belt/bandolier
 	name = "bandolier"
 	desc = "A bandolier for holding ammunition."
+	mob_overlay_icon = 'icons/fallout/onmob/clothes/belt.dmi'
+	slot_flags = ITEM_SLOT_NECK
 	icon_state = "bandolier"
 	item_state = "bandolier"
 
@@ -806,6 +821,39 @@
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
 	STR.max_items = 2
 	STR.max_w_class = WEIGHT_CLASS_BULKY + WEIGHT_CLASS_NORMAL //katana and waki.
+
+/obj/item/storage/belt/sabre/single
+	name = "bulky sheath"
+	desc = "A deep sheath strapped across your chest and belt to provide maximum comfort for carrying heavy melee weapons around."
+	icon = 'icons/fallout/clothing/belts.dmi'
+	mob_overlay_icon = 'icons/fallout/onmob/clothes/belt.dmi'
+	icon_state = "sheath_single"
+	slot_flags = ITEM_SLOT_NECK
+	w_class = WEIGHT_CLASS_BULKY
+	starting_sword = null
+
+/obj/item/storage/belt/sabre/single/ComponentInitialize()
+	. = ..()
+	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
+	STR.max_items = 1
+	STR.max_w_class = WEIGHT_CLASS_BULKY
+	STR.can_hold = typecacheof(list(
+		/obj/item/melee/smith,
+		/obj/item/melee/smith/wakizashi,
+		/obj/item/melee/smith/twohand,
+		/obj/item/melee/smith/twohand/katana,
+		/obj/item/melee/powered/ripper,
+		/obj/item/melee/onehanded/machete,
+		/obj/item/melee/onehanded/machete/forgedmachete,
+		/obj/item/melee/onehanded/machete/gladius,
+		/obj/item/melee/onehanded/machete/spatha,
+		/obj/item/melee/onehanded/machete/scrapsabre,
+		/obj/item/twohanded/legionaxe,
+		/obj/item/twohanded/fireaxe,
+		/obj/item/twohanded/fireaxe/bmprsword,
+		/obj/item/twohanded/thermic_lance,
+		/obj/item/twohanded/sledgehammer/supersledge
+		))
 
 ////////////////
 // Fanny pack //

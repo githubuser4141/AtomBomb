@@ -58,12 +58,12 @@ GLOBAL_LIST_INIT(command_positions, list(
 	"Legion Centurion",
 
 	"Mayor",
-	"Marshal",
+	"Provost Marshal",
+
+	"Desperado Leader",
 
 	"Enclave Lieutenant",
 
-	"Noyan",
-	"Steward",
 	))
 
 GLOBAL_LIST_INIT(silicon_whitelist_positions, list(
@@ -126,22 +126,22 @@ GLOBAL_LIST_INIT(brotherhood_positions, list(
 	"Knight-Captain",
 	"Head Scribe",
 	"Senior Paladin",
-	"Paladin",
 	"Senior Knight",
-	"Knight",
 	"Senior Scribe",
+	"Paladin",
+	"Knight",
 	"Scribe",
 	"Initiate",
 ))
 
 GLOBAL_LIST_INIT(eastwood_positions, list(
 	"Mayor",
-	"Marshal",
-	"Deputy",
+	"Provost Marshal",
+	"Deputy Marshal",
 	"Detective",
 	"Merchant",
 	"Prospector",
-	"Barkeep",
+	"Barkeeper",
 	"Town Doctor",
 	"Researcher",
 	"Preacher",
@@ -162,12 +162,12 @@ GLOBAL_LIST_INIT(legion_positions, list(
 	"Legion Veteran Decanus",
 	"Legion Prime Decanus",
 	"Legion Recruit Decanus",
-	"Legion Assassin",
+	"Legion Speculator",
 	"Legion Explorer",
 	"Veteran Legionnaire",
 	"Prime Legionnaire",
 	"Recruit Legionnaire",
-	"Camp Exactor",
+	"Camp Follower",
 	"Legion Immune",
 	"Legion Slave"
 ))
@@ -200,9 +200,9 @@ GLOBAL_LIST_INIT(wasteland_positions, list(
 
 GLOBAL_LIST_INIT(outlaw_positions, list(
 	"Raider",
-	"Desperado Enforcer",
-	"Desperado Leader",
 	"Great Khan",
+	"Desperado Leader",
+	"Desperado Enforcer"
 ))
 
 GLOBAL_LIST_INIT(enclave_positions, list(

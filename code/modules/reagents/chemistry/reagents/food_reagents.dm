@@ -16,14 +16,11 @@
 	var/max_nutrition = INFINITY
 	var/quality = 0	//affects mood, typically higher for mixed drinks with more complex recipes
 	ghoulfriendly = TRUE
-	var/water_level = 0.5
-	var/max_water = INFINITY
 
 /datum/reagent/consumable/on_mob_life(mob/living/carbon/M)
 	if(!HAS_TRAIT(M, TRAIT_NO_PROCESS_FOOD))
 		current_cycle++
 		M.adjust_nutrition(nutriment_factor, max_nutrition)
-		M.adjust_thirst(water_level, max_water)
 	M.CheckBloodsuckerEatFood(nutriment_factor)
 	holder?.remove_reagent(type, metabolization_rate)
 
@@ -877,7 +874,7 @@
 		M.adjustFireLoss(-1*REM, 0)
 		. = TRUE
 	..()
-
+/*
 /datum/reagent/consumable/liquidelectricity
 	name = "Liquid Electricity"
 	description = "The blood of Ethereals, and the stuff that keeps them going. Great for them, horrid for anyone else."
@@ -898,7 +895,7 @@
 		M.electrocute_act(rand(10,15), "Liquid Electricity in their body", 1) //lmao at the newbs who eat energy bars
 		playsound(M, "sparks", 50, TRUE)
 	return ..()
-
+*/
 /datum/reagent/consumable/astrotame
 	name = "Astrotame"
 	description = "A space age artifical sweetener."

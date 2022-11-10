@@ -82,7 +82,7 @@
 
 /// Minimum time before a game-ending vote can be started by players.
 /datum/config_entry/number/min_end_vote_time
-	config_entry_value = 300 MINUTES
+	config_entry_value = 150 MINUTES
 	min_val = 0
 
 /datum/config_entry/number/vote_delay	// minimum time between voting sessions (deciseconds, 10 minute default)
@@ -519,3 +519,7 @@
 // via send2chat("Hello world.", CONFIG_GET(string/discord_channel_serverstatus))
 /datum/config_entry/string/discord_channel_serverstatus
 	config_entry_value = "server_status"
+
+/// log mech data
+/datum/config_entry/flag/log_mecha
+	config_entry_value = TRUE

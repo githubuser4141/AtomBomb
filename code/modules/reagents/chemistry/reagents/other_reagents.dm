@@ -253,13 +253,11 @@
 	glass_desc = "The father of all refreshments."
 	shot_glass_icon_state = "shotglassclear"
 	ghoulfriendly = TRUE
-	var/water_level = 5
 
 /datum/reagent/water/on_mob_life(mob/living/carbon/M)
 	. = ..()
 	if(M.blood_volume)
 		M.blood_volume += 0.1 // water is good for you!
-	M.water += water_level
 	holder.remove_reagent(type, 1)	
 
 /*
@@ -335,7 +333,7 @@
 
 /datum/reagent/water_purifier
 	name = "Water Purifier"
-	description = "An industrical reagent used to purify irradiated or otherwise contaminated water. Just use it in proportions 1:1 with any container of water."
+	description = "An industrical reagent used to purify irradiated or otherwise contaminated water. Just use it in proportions 2:1 with any container of water."
 	color = "#5E6566AA" // Charcoal is in it, so kinda looking weird?
 	taste_description = "purity" // Why did you eat it anyway?
 	value = REAGENT_VALUE_RARE // Difficult to make
@@ -346,17 +344,16 @@
 	color = "#C3DBDA66" // It's cleaner, kek
 	taste_description = "clean water"
 	value = REAGENT_VALUE_AMAZING
+	overdose_threshold = 70 //Imagine drinking a gallon of water
 	can_synth = FALSE
 
 /datum/reagent/water/purified/on_mob_life(mob/living/carbon/M) // Pure water is very, very healthy
-	M.reagents.remove_all_type(/datum/reagent/toxin, 1)
 	M.adjustBruteLoss(-0.5, 0)
 	M.adjustFireLoss(-0.5, 0)
 	M.adjustOxyLoss(-0.5, 0)
-	M.adjustToxLoss(-1, 0, TRUE)
-	M.adjustStaminaLoss(-0.5, FALSE)
+	M.adjustToxLoss(-0.5, 0, TRUE)
 	if(M.radiation > 0)
-		M.radiation -= min(M.radiation, 2)
+		M.radiation -= min(M.radiation, 1)
 	..()
 
 /datum/reagent/water/hollowwater
@@ -2338,7 +2335,7 @@
 	description = "blue sparkles that get everywhere"
 	color = "#4040FF" //A blueish color
 	glitter_type = /obj/effect/decal/cleanable/glitter/blue
-
+/*
 /datum/reagent/pax
 	name = "pax"
 	description = "A colorless liquid that suppresses violence on the subjects."
@@ -2357,7 +2354,7 @@
 /datum/reagent/pax/on_mob_end_metabolize(mob/living/L)
 	REMOVE_TRAIT(L, TRAIT_PACIFISM, type)
 	..()
-
+*/
 /datum/reagent/bz_metabolites
 	name = "BZ metabolites"
 	description = "A harmless metabolite of BZ gas"
@@ -2381,14 +2378,14 @@
 		if(changeling)
 			changeling.chem_charges = max(changeling.chem_charges-2, 0)
 	return ..()
-
+/*
 /datum/reagent/pax/peaceborg
 	name = "synth-pax"
 	description = "A colorless liquid that suppresses violence on the subjects. Cheaper to synthetize, but wears out faster than normal Pax."
 	metabolization_rate = 1.5 * REAGENTS_METABOLISM
 	value = REAGENT_VALUE_COMMON
 	ghoulfriendly = TRUE
-
+*/
 /datum/reagent/peaceborg_confuse
 	name = "Dizzying Solution"
 	description = "Makes the target off balance and dizzy"
@@ -2471,14 +2468,14 @@
 	color = "#BCC740" //RGB: 188, 199, 64
 	taste_description = "plant dust"
 	ghoulfriendly = TRUE
-
+/*
 /datum/reagent/pax/catnip
 	name = "catnip"
 	taste_description = "grass"
 	description = "A colorless liquid that makes people more peaceful and felines more happy."
 	metabolization_rate = 1.75 * REAGENTS_METABOLISM
 	value = REAGENT_VALUE_COMMON
-
+*/
 /datum/reagent/preservahyde
 	name = "Preservahyde"
 	description = "A powerful preservation agent, utilizing the preservative effects of formaldehyde with significantly less of the histamine."

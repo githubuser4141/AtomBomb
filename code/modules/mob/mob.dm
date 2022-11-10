@@ -35,7 +35,7 @@
 			continue
 		var/datum/atom_hud/alternate_appearance/AA = v
 		AA.onNewMob(src)
-	set_nutrition(rand(NUTRITION_LEVEL_START_MIN, NUTRITION_LEVEL_START_MAX), rand(THIRST_LEVEL_START_MIN, THIRST_LEVEL_START_MAX))
+	set_nutrition(rand(NUTRITION_LEVEL_START_MIN, NUTRITION_LEVEL_START_MAX))
 	. = ..()
 	update_config_movespeed()
 	update_movespeed(TRUE)
@@ -961,7 +961,7 @@ GLOBAL_VAR_INIT(exploit_warn_spam_prevention, 0)
 		return
 	client.mouse_pointer_icon = initial(client.mouse_pointer_icon)
 	if (ismecha(loc))
-		var/obj/mecha/M = loc
+		var/obj/vehicle/sealed/mecha/M = loc
 		if(M.mouse_pointer)
 			client.mouse_pointer_icon = M.mouse_pointer
 
@@ -1057,10 +1057,6 @@ GLOBAL_VAR_INIT(exploit_warn_spam_prevention, 0)
 ///Force set the mob nutrition
 /mob/proc/set_nutrition(change) //Seriously fuck you oldcoders.
 	nutrition = max(0, change)
-
-///Adjust the thirst of a mob
-/mob/proc/adjust_thirst(change, max = INFINITY)
-	water = clamp(water + change, 0, max)
 
 /mob/setMovetype(newval)
 	. = ..()

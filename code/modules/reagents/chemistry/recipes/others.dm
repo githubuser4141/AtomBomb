@@ -21,7 +21,7 @@
 	name = "Purified Water"
 	id = /datum/reagent/water/purified
 	results = list(/datum/reagent/water/purified = 1)
-	required_reagents = list(/datum/reagent/water = 1, /datum/reagent/water_purifier = 1)
+	required_reagents = list(/datum/reagent/water = 1, /datum/reagent/water_purifier = 2)
 
 /datum/chemical_reaction/metalgen_imprint/on_reaction(datum/reagents/holder, created_volume)
 	var/datum/reagent/metalgen/MM = holder.get_reagent(/datum/reagent/metalgen)
@@ -708,13 +708,13 @@
 	var/location = get_turf(holder.my_atom)
 	for(var/i in 1 to multiplier)
 		new /obj/item/stack/sheet/plastic(location)
-
+/*
 /datum/chemical_reaction/pax
 	name = "pax"
 	id = /datum/reagent/pax
 	results = list(/datum/reagent/pax = 3)
 	required_reagents  = list(/datum/reagent/toxin/mindbreaker = 1, /datum/reagent/medicine/synaptizine = 1, /datum/reagent/water = 1)
-
+*/
 // TODO: Add some kind of ghoulification mutation toxin? Iunno.
 
 // Liquid Carpets
