@@ -6,9 +6,9 @@
 // Mech LMG
 
 /obj/item/projectile/bullet/lmg
-	damage = 23
-	armour_penetration = BULLET_PENETRATION_HEAVY
-	damage_threshold_penetration = BULLET_DT_PENETRATION_MEDIUM
+	damage = 20
+	armour_penetration = BULLET_PENETRATION_ABSOLUTE
+	damage_threshold_penetration = BULLET_DT_PENETRATION_SMALL
 	icon_state = "mech_autocannon"
 	light_range = 2
 	light_power = 0.5

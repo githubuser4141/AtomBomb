@@ -92,10 +92,10 @@
 			var/dmg = rand(mecha_attacker.force * 0.5, mecha_attacker.force)
 			switch(mecha_attacker.damtype)
 				if(BRUTE)
-					if(mecha_attacker.force > 35) // durand and other heavy mechas
+					if(mecha_attacker.force > 50)
 						Unconscious(20)
-					else if(mecha_attacker.force > 20 && !IsKnockdown()) // lightweight mechas like gygax
-						Knockdown(40)
+					else if(mecha_attacker.force > 20 && !IsKnockdown())
+						Knockdown(30)
 					update |= temp.receive_damage(dmg, 0)
 					playsound(src, 'sound/weapons/punch4.ogg', 50, TRUE)
 				if(BURN)
