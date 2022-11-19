@@ -116,3 +116,12 @@
 	for(var/k in occupants)
 		var/mob/M = k
 		M.setDir(newdir)
+
+/obj/vehicle/sealed/after_add_occupant(mob/M)
+	. = ..()
+	ADD_TRAIT(M, TRAIT_HANDS_BLOCKED, VEHICLE_TRAIT)
+
+
+/obj/vehicle/sealed/after_remove_occupant(mob/M)
+	. = ..()
+	REMOVE_TRAIT(M, TRAIT_HANDS_BLOCKED, VEHICLE_TRAIT)
