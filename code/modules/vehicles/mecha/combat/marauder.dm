@@ -19,9 +19,7 @@
 
 /obj/vehicle/sealed/mecha/combat/marauder/loaded/Initialize()
 	. = ..()
-	var/obj/item/mecha_parts/mecha_equipment/ME = new /obj/item/mecha_parts/mecha_equipment/thrusters/ion(src)
-	ME.attach(src)
-	ME = new /obj/item/mecha_parts/mecha_equipment/weapon/energy/pulse(src)
+	var/obj/item/mecha_parts/mecha_equipment/ME = new /obj/item/mecha_parts/mecha_equipment/weapon/energy/pulse(src)
 	ME.attach(src)
 	ME = new /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/missile_rack(src)
 	ME.attach(src)
@@ -45,9 +43,7 @@
 
 /obj/vehicle/sealed/mecha/combat/marauder/seraph/Initialize()
 	. = ..()
-	var/obj/item/mecha_parts/mecha_equipment/ME = new /obj/item/mecha_parts/mecha_equipment/thrusters/ion(src)
-	ME.attach(src)
-	ME = new /obj/item/mecha_parts/mecha_equipment/weapon/energy/pulse(src)
+	var/obj/item/mecha_parts/mecha_equipment/ME = new /obj/item/mecha_parts/mecha_equipment/weapon/energy/pulse(src)
 	ME.attach(src)
 	ME = new /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/missile_rack(src)
 	ME.attach(src)
@@ -68,11 +64,6 @@
 	wreckage = /obj/structure/mecha_wreckage/mauler
 	max_equip = 6
 	destruction_sleep_duration = 20
-
-/obj/vehicle/sealed/mecha/combat/marauder/mauler/Initialize()
-	. = ..()
-	var/obj/item/mecha_parts/mecha_equipment/ME = new /obj/item/mecha_parts/mecha_equipment/thrusters/ion(src)
-	ME.attach(src)
 
 /obj/vehicle/sealed/mecha/combat/marauder/mauler/loaded/Initialize()
 	. = ..()

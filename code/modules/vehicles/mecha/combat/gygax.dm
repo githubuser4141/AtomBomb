@@ -27,9 +27,7 @@
 
 /obj/vehicle/sealed/mecha/combat/gygax/dark/loaded/Initialize()
 	. = ..()
-	var/obj/item/mecha_parts/mecha_equipment/ME = new /obj/item/mecha_parts/mecha_equipment/thrusters/ion(src)
-	ME.attach(src)
-	ME = new /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/scattershot
+	var/obj/item/mecha_parts/mecha_equipment/ME = new /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/scattershot
 	ME.attach(src)
 	ME = new /obj/item/mecha_parts/mecha_equipment/armor/anticcw_armor_booster
 	ME.attach(src)
