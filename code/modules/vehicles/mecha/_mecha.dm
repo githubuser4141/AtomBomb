@@ -36,6 +36,7 @@
 	light_on = FALSE
 	light_range = 4
 	force = 5
+
 	///What direction will the mech face when entered/powered on? Defaults to South.
 	var/dir_in = SOUTH
 	///How much energy the mech will consume each time it moves. This variable is a backup for when leg actuators affect the energy drain.
@@ -170,7 +171,6 @@
 
 	///Bool for whether this mech can only be used on lavaland
 	var/lavaland_only = FALSE
-
 
 	hud_possible = list (DIAG_STAT_HUD, DIAG_BATT_HUD, DIAG_MECH_HUD, DIAG_TRACK_HUD)
 
@@ -1230,3 +1230,24 @@
 		else
 			to_chat(user, "<span class='notice'>None of the equipment on this exosuit can use this ammo!</span>")
 	return FALSE
+
+//////Mechs give NVGs to occupants by default//////
+
+/obj/vehicle/sealed/mecha/moved_inside(mob/living/carbon/human/H)
+	. = ..()
+	if(. && !HAS_TRAIT(H, TRAIT_MECHA_NVG))
+		ADD_TRAIT(H, TRAIT_MECHA_NVG, VEHICLE_TRAIT)
+		H.update_sight()
+
+/obj/vehicle/sealed/mecha/remove_occupant(mob/living/carbon/human/H)
+	if(isliving(H) && HAS_TRAIT_FROM(H, TRAIT_MECHA_NVG, VEHICLE_TRAIT))
+		REMOVE_TRAIT(H, TRAIT_MECHA_NVG, VEHICLE_TRAIT)
+		H.update_sight()
+	return ..()
+
+/obj/vehicle/sealed/mecha/mmi_moved_inside(obj/item/mmi/M, mob/user)
+	. = ..()
+	if(. && !HAS_TRAIT(M, TRAIT_MECHA_NVG))
+		var/mob/living/brain/B = M.brainmob
+		ADD_TRAIT(B, TRAIT_MECHA_NVG, VEHICLE_TRAIT)
+		B.update_sight()
