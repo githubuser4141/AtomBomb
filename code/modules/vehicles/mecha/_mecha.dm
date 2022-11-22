@@ -35,6 +35,7 @@
 	light_system = MOVABLE_LIGHT_DIRECTIONAL
 	light_on = FALSE
 	light_range = 4
+	layer = ABOVE_ALL_MOB_LAYER
 	force = 5
 
 	///What direction will the mech face when entered/powered on? Defaults to South.
