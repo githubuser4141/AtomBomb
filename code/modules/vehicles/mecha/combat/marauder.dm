@@ -2,6 +2,7 @@
 	desc = "A retrofit of the orginal 'Durand' exosuit designed for extended combat operations, the shield projector has been replaced with a smoke-screen dispenser and a sophisticated sensor suite."
 	name = "\improper Marauder"
 	icon_state = "marauder"
+	base_color = "#7886A5"
 	movedelay = 5
 	max_integrity = 600
 	armor = list("melee" = 45, "bullet" = 55, "laser" = 30, "energy" = 30, "bomb" = 50, "bio" = 100, "rad" = 75, "fire" = 100, "acid" = 100)
@@ -54,6 +55,7 @@
 	desc = "Heavy-duty, command-type exosuit. This is a custom model, utilized only by high-ranking military personnel."
 	name = "\improper Seraph"
 	icon_state = "seraph"
+	base_color = "#878C97"
 	movedelay = 3
 	max_integrity = 700
 	armor = list("melee" = 60, "bullet" = 65, "laser" = 50, "energy" = 50, "bomb" = 75, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100)
@@ -82,6 +84,7 @@
 	desc = "Heavy-duty, combat exosuit, developed off of the existing Marauder model."
 	name = "\improper Mauler"
 	icon_state = "mauler"
+	base_color = "#272727"
 	max_integrity = 650
 	armor = list("melee" = 55, "bullet" = 60, "laser" = 35, "energy" = 30, "bomb" = 55, "bio" = 100, "rad" = 90, "fire" = 100, "acid" = 100)
 	wreckage = /obj/structure/mecha_wreckage/mauler

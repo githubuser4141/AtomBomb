@@ -2,6 +2,7 @@
 	desc = "A civilian medical exosuit model, produced to assist in medical bays of the Vaults."
 	name = "\improper Odysseus"
 	icon_state = "odysseus"
+	base_color = "#FFFFFF"
 	allow_diagonal_movement = TRUE
 	movedelay = 2
 	max_temperature = 15000

@@ -106,6 +106,7 @@
 	energy_drain = 0
 	dam_force = 0
 	var/real_clamp = FALSE
+	need_colorize = FALSE
 
 /obj/item/mecha_parts/mecha_equipment/hydraulic_clamp/kill/real
 	desc = "They won't know what clamped them! This time for real!"

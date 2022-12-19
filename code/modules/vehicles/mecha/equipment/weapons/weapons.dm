@@ -129,7 +129,7 @@
 	energy_drain = 50
 	projectile = /obj/item/projectile/plasma/adv/mech
 	fire_sound = 'sound/weapons/plasma_cutter.ogg'
-	harmful = TRUE
+	has_equip_overlay = FALSE
 
 /obj/item/mecha_parts/mecha_equipment/weapon/energy/plasma/can_attach(obj/vehicle/sealed/mecha/M)
 	if(..()) //combat mech
@@ -156,7 +156,8 @@
 	equip_cooldown = 150
 	range = MECHA_MELEE|MECHA_RANGED
 	kickback = FALSE
-
+	equip_slot = BACK
+	need_colorize = FALSE
 
 /obj/item/mecha_parts/mecha_equipment/weapon/honker/action(mob/source, atom/target, params)
 	if(!action_checks(target))
@@ -442,6 +443,7 @@
 	missile_speed = 1.5
 	projectile_energy_cost = 100
 	equip_cooldown = 10
+	need_colorize = FALSE
 
 /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/launcher/mousetrap_mortar/proj_init(obj/item/assembly/mousetrap/armed/M)
 	M.secured = 1

@@ -2,9 +2,10 @@
 	desc = "A pre-War security exosuit developed by Vault-Tec to minimize casulties among security staff during violent uprisings. It's painted in a bright orange scheme to ensure recognizability."
 	name = "\improper Gygax"
 	icon_state = "gygax"
+	base_color = "#ED5F3B"
 	movedelay = 3
 	max_integrity = 350
-	armor = list("melee" = 30, "bullet" = 25, "laser" = 30, "energy" = 30, "bomb" = 25, "bio" = 100, "rad" = 50, "fire" = 100, "acid" = 100)
+	armor = list("melee" = 35, "bullet" = 25, "laser" = 30, "energy" = 30, "bomb" = 25, "bio" = 100, "rad" = 50, "fire" = 100, "acid" = 100)
 	max_temperature = 25000
 	leg_overload_coeff = 300
 	overload_step_energy_drain_min = 300
@@ -16,7 +17,8 @@
 	desc = "A lightweight exosuit, painted in a dark scheme. This model appears to have some modifications."
 	name = "\improper Dark Gygax"
 	icon_state = "darkgygax"
-	max_integrity = 500
+	base_color = "#4E4E4E"
+	max_integrity = 450
 	armor = list("melee" = 40, "bullet" = 40, "laser" = 50, "energy" = 35, "bomb" = 30, "bio" = 100, "rad" = 75, "fire" = 100, "acid" = 100)
 	max_temperature = 35000
 	leg_overload_coeff = 70

@@ -2,6 +2,7 @@
 	desc = "Autonomous Power Loader Unit MK-I. Designed primarily around heavy lifting, the Ripley can be outfitted with utility equipment to fill a number of roles."
 	name = "\improper APLU MK-I \"Ripley\""
 	icon_state = "ripley"
+	base_color = "#DFD472"
 	silicon_icon_state = "ripley-empty"
 	movedelay = 2 //Move speed, lower is faster.
 	/// How fast the mech is in low pressure
@@ -59,6 +60,7 @@
 	desc = "A pre-War design by Vault-Tec to protect workers in hazardous post-War conditions. This model has had its internal ore box replaced with a generic storage module."
 	name = "\improper Clarke"
 	icon_state = "clarke"
+	base_color = "#b58c43"
 	max_temperature = 65000
 	max_integrity = 300
 	movedelay = 1.75
@@ -75,6 +77,7 @@
 	desc = "OH SHIT IT'S THE DEATHSQUAD WE'RE ALL GONNA DIE"
 	name = "\improper DEATH-RIPLEY"
 	icon_state = "deathripley"
+	base_color = "#880015"
 	max_temperature = 100000
 	max_integrity = 500
 	resistance_flags = LAVA_PROOF | FIRE_PROOF | ACID_PROOF

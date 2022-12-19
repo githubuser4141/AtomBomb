@@ -2,6 +2,7 @@
 	desc = "An combat exosuit utilized by the Vault-Tec corporation. A pre-War design, developed by Vault-Tec to combat post-War threats. It seems to have an experimental shield projector installed to minimize damage to the exosuit."
 	name = "\improper Durand"
 	icon_state = "durand"
+	base_color = "#A8ABB3"
 	movedelay = 4
 	max_integrity = 500
 	armor = list("melee" = 45, "bullet" = 45, "laser" = 25, "energy" = 20, "bomb" = 40, "bio" = 100, "rad" = 50, "fire" = 100, "acid" = 100)

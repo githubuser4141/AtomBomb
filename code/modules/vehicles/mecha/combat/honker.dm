@@ -2,6 +2,7 @@
 	desc = "Produced by \"Tyranny of Honk, INC\", this exosuit is designed as heavy clown-support. Used to spread the fun and joy of life. HONK!"
 	name = "\improper H.O.N.K"
 	icon_state = "honker"
+	base_color = "#BD0F17"
 	movedelay = 3
 	allow_diagonal_movement = TRUE
 	max_integrity = 200
@@ -17,4 +18,4 @@
 	if(squeak)
 		playsound(src, "clownstep", 70, 1)
 	squeak = !squeak
-	
+

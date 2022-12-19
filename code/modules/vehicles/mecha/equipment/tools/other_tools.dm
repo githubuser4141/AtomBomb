@@ -192,7 +192,7 @@
 	name = "armor booster module (Ranged Weaponry)"
 	desc = "Boosts exosuit armor against ranged attacks."
 	icon_state = "mecha_abooster_proj"
-	armor_mod = list("melee" = 0, "bullet" = 10, "laser" = 10, "energy" = 5, "bomb" = 0, "bio" = 0, "fire" = 0, "acid" = 0)
+	armor_mod = list("melee" = 0, "bullet" = 10, "laser" = 10, "energy" = 7.5, "bomb" = 0, "bio" = 0, "fire" = 0, "acid" = 0)
 
 
 ////////////////////////////////// REPAIR DROID //////////////////////////////////////////////////
