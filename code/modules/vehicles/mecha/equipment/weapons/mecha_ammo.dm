@@ -52,8 +52,16 @@
 	name = "machine gun ammo"
 	desc = "A box of linked ammunition, designed for the Ultra AC 2 exosuit weapon."
 	icon_state = "lmg"
-	rounds = 300
+	rounds = 150
 	ammo_type = "lmg"
+
+/obj/item/mecha_ammo/cannon
+	name = "cannon ammo"
+	desc = "A box of large shells for use in exosuit cannons."
+	icon_state = "incendiary"
+	rounds = 15
+	ammo_type = "cannon"
+
 
 /obj/item/mecha_ammo/missiles_br
 	name = "breaching missiles"
