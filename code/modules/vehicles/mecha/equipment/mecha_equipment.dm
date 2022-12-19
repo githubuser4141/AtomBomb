@@ -21,6 +21,10 @@
 	var/harmful = FALSE //Controls if equipment can be used to attack by a pacifist.
 	var/destroy_sound = 'sound/mecha/critdestr.ogg'
 
+	var/has_equip_overlay = TRUE
+	var/need_colorize = TRUE
+	var/equip_slot = HAND
+
 /obj/item/mecha_parts/mecha_equipment/proc/update_chassis_page()
 	if(chassis)
 		send_byjax(chassis.occupants,"exosuit.browser","eq_list",chassis.get_equipment_list())
@@ -129,6 +133,7 @@
 			chassis.selected = null
 		update_chassis_page()
 		log_message("[src] removed from equipment.", LOG_MECHA)
+		chassis.update_icon()
 		chassis = null
 	return
 

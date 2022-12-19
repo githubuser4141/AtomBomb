@@ -55,24 +55,10 @@
 /obj/vehicle/sealed/mecha/proc/get_stats_part(mob/user)
 	var/integrity = obj_integrity/max_integrity*100
 	var/cell_charge = get_charge()
-	var/datum/gas_mixture/int_tank_air = 0
-	var/tank_pressure = 0
-	var/tank_temperature = 0
-	var/cabin_pressure = 0
-	if (internal_tank)
-		int_tank_air = internal_tank.return_air()
-		tank_pressure = internal_tank ? round(int_tank_air.return_pressure(),0.01) : "None"
-		tank_temperature = internal_tank ? int_tank_air.return_temperature() : "Unknown"
-		cabin_pressure = round(return_pressure(),0.01)
 	. =	{"[report_internal_damage()]
 		[integrity<30?"<span class='userdanger'>DAMAGE LEVEL CRITICAL</span><br>":null]
 		<b>Integrity: </b> [integrity]%<br>
 		<b>Power cell charge: </b>[isnull(cell_charge)?"No power cell installed":"[cell.percent()]%"]<br>
-		<b>Air source: </b>[internal_tank?"[use_internal_tank?"Internal Airtank":"Environment"]":"Environment"]<br>
-		<b>Airtank pressure: </b>[internal_tank?"[tank_pressure]kPa":"N/A"]<br>
-		<b>Airtank temperature: </b>[internal_tank?"[tank_temperature]&deg;K|[tank_temperature - T0C]&deg;C":"N/A"]<br>
-		<b>Cabin pressure: </b>[internal_tank?"[cabin_pressure>WARNING_HIGH_PRESSURE ? "<span class='danger'>[cabin_pressure]</span>": cabin_pressure]kPa":"N/A"]<br>
-		<b>Cabin temperature: </b> [internal_tank?"[return_temperature()]&deg;K|[return_temperature() - T0C]&deg;C":"N/A"]<br>
 		[dna_lock?"<b>DNA-locked:</b><br> <span style='font-size:10px;letter-spacing:-1px;'>[dna_lock]</span> \[<a href='?src=[REF(src)];reset_dna=1'>Reset</a>\]<br>":""]<br>"}
 	. += "[get_actions(user)]<br>"
 
@@ -92,7 +78,6 @@
 	var/list/dam_reports = list(
 		"[MECHA_INT_FIRE]" = "<span class='userdanger'>INTERNAL FIRE</span>",
 		"[MECHA_INT_TEMP_CONTROL]" = "<span class='userdanger'>LIFE SUPPORT SYSTEM MALFUNCTION</span>",
-		"[MECHA_INT_TANK_BREACH]" = "<span class='userdanger'>GAS TANK BREACH</span>",
 		"[MECHA_INT_CONTROL_LOST]" = "<span class='userdanger'>COORDINATION SYSTEM CALIBRATION FAILURE</span> - <a href='?src=[REF(src)];repair_int_control_lost=1'>Recalibrate</a>",
 		"[MECHA_INT_SHORT_CIRCUIT]" = "<span class='userdanger'>SHORT CIRCUIT</span>"
 								)
@@ -101,8 +86,6 @@
 		if(internal_damage & intdamflag)
 			. += dam_reports[tflag]
 			. += "<br />"
-	if(return_pressure() > WARNING_HIGH_PRESSURE)
-		. += "<span class='userdanger'>DANGEROUSLY HIGH CABIN PRESSURE</span><br />"
 
 ///HTML for list of equipment.
 /obj/vehicle/sealed/mecha/proc/get_equipment_list() //outputs mecha equipment list in html
@@ -139,7 +122,6 @@
 		<div class='links'>
 			<a href='?src=[REF(src)];toggle_id_upload=1'><span id='t_id_upload'>[(mecha_flags & ADDING_ACCESS_POSSIBLE)?"L":"Unl"]ock ID upload panel</span></a><br>
 			<a href='?src=[REF(src)];toggle_maint_access=1'><span id='t_maint_access'>[(mecha_flags & ADDING_MAINT_ACCESS_POSSIBLE)?"Forbid":"Permit"] maintenance protocols</span></a><br>
-			[internal_tank?"<a href='?src=[REF(src)];toggle_port_connection=1'><span id='t_port_connection'>[internal_tank.connected_port?"Disconnect from":"Connect to"] gas port</span></a><br>":""]
 			<a href='?src=[REF(src)];dna_lock=1'>DNA-lock</a><br>
 			<a href='?src=[REF(src)];change_name=1'>Change exosuit name</a>
 		</div>
@@ -299,15 +281,6 @@
 			usr << browse(null,"window=exosuit_add_access")
 			return
 
-		//Set pressure.
-		if(href_list["set_internal_tank_valve"] && construction_state)
-			var/new_pressure = input(usr,"Input new output pressure","Pressure setting",internal_tank_valve) as num|null
-			if(isnull(new_pressure) || usr.incapacitated() || !construction_state)
-				return
-			internal_tank_valve = new_pressure
-			to_chat(usr, "<span class='notice'>The internal pressure valve has been set to [internal_tank_valve]kPa.</span>")
-			return
-
 	//Start of all internal topic stuff.
 	if(!locate(usr) in occupants)
 		return
@@ -325,6 +298,7 @@
 		to_chat(occupants, "[icon2html(src, occupants)]<span class='notice'>You switch to [equip].</span>")
 		visible_message("<span class='notice'>[src] raises [equip].</span>")
 		send_byjax(usr, "exosuit.browser", "eq_list", get_equipment_list())
+		update_icon()
 		return
 
 	//Toggles radio broadcasting
@@ -367,26 +341,6 @@
 			return
 		mecha_flags ^= ADDING_MAINT_ACCESS_POSSIBLE
 		send_byjax(usr,"exosuit.browser","t_maint_access","[(mecha_flags & ADDING_MAINT_ACCESS_POSSIBLE)?"Forbid":"Permit"] maintenance protocols")
-		return
-
-	//Toggles connection port.
-	if (href_list["toggle_port_connection"])
-		if(internal_tank.connected_port)
-			if(internal_tank.disconnect())
-				to_chat(occupants, "[icon2html(src, occupants)]<span class='notice'>Disconnected from the air system port.</span>")
-				log_message("Disconnected from gas port.", LOG_MECHA)
-			else
-				to_chat(occupants, "[icon2html(src, occupants)]<span class='warning'>Unable to disconnect from the air system port!</span>")
-				return
-		else
-			var/obj/machinery/atmospherics/components/unary/portables_connector/possible_port = locate() in loc
-			if(internal_tank.connect(possible_port))
-				to_chat(occupants, "[icon2html(src, occupants)]<span class='notice'>Connected to the air system port.</span>")
-				log_message("Connected to gas port.", LOG_MECHA)
-			else
-				to_chat(occupants, "[icon2html(src, occupants)]<span class='warning'>Unable to connect with air system port!</span>")
-				return
-		send_byjax(occupants,"exosuit.browser","t_port_connection","[internal_tank.connected_port?"Disconnect from":"Connect to"] gas port")
 		return
 
 	//Turns on the DNA lock

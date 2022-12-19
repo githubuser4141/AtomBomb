@@ -12,13 +12,14 @@
 	energy_drain = 1000
 	range = MECHA_RANGED
 	var/teleport_range = 7
+	equip_slot = BACK
 
 /obj/item/mecha_parts/mecha_equipment/teleporter/action(mob/source, atom/target, params)
-	if(!action_checks(target) || is_centcom_level(loc.z))
+	if(!action_checks(target) || is_centcom_level(loc.z) || is_blocked_turf(target, TRUE))
 		return
 	var/turf/T = get_turf(target)
 	if(T && (loc.z == T.z) && (get_dist(loc, T) <= teleport_range))
-		do_teleport(chassis, T, 4, channel = TELEPORT_CHANNEL_BLUESPACE)
+		do_teleport(chassis, T, 1, channel = TELEPORT_CHANNEL_BLUESPACE)
 		return ..()
 
 
@@ -77,6 +78,7 @@
 	range = MECHA_MELEE|MECHA_RANGED
 	var/atom/movable/locked
 	var/mode = 1 //1 - gravsling 2 - gravpush
+	equip_slot = BACK
 
 
 /obj/item/mecha_parts/mecha_equipment/gravcatapult/action(mob/source, atom/movable/target, params)
@@ -158,6 +160,7 @@
 	range = 0
 	selectable = 0
 	var/list/armor_mod = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "fire" = 0, "acid" = 0)
+	has_equip_overlay = FALSE
 
 /obj/item/mecha_parts/mecha_equipment/armor/attach(obj/vehicle/sealed/mecha/M)
 	. = ..()
@@ -205,6 +208,7 @@
 	var/icon/droid_overlay
 	var/list/repairable_damage = list(MECHA_INT_TEMP_CONTROL,MECHA_INT_TANK_BREACH)
 	selectable = 0
+	has_equip_overlay = FALSE
 
 /obj/item/mecha_parts/mecha_equipment/repair_droid/Destroy()
 	STOP_PROCESSING(SSobj, src)
@@ -284,6 +288,7 @@
 	var/coeff = 100
 	var/list/use_channels = list(EQUIP,ENVIRON,LIGHT)
 	selectable = 0
+	has_equip_overlay = FALSE
 
 /obj/item/mecha_parts/mecha_equipment/tesla_energy_relay/Destroy()
 	STOP_PROCESSING(SSobj, src)
@@ -359,7 +364,7 @@
 /obj/item/mecha_parts/mecha_equipment/generator
 	name = "exosuit plasma converter"
 	desc = "An exosuit module that generates power using solid plasma as fuel. Pollutes the environment."
-	icon_state = "tesla"
+	icon_state = "generator"
 	range = MECHA_MELEE
 	var/coeff = 100
 	var/obj/item/stack/sheet/fuel
@@ -367,6 +372,7 @@
 	var/fuel_per_cycle_idle = 75
 	var/fuel_per_cycle_active = 200
 	var/power_per_cycle = 200
+	has_equip_overlay = FALSE
 
 /obj/item/mecha_parts/mecha_equipment/generator/Initialize()
 	. = ..()
@@ -449,12 +455,13 @@
 /obj/item/mecha_parts/mecha_equipment/generator/nuclear
 	name = "exonuclear reactor"
 	desc = "An exosuit module that generates power using uranium as fuel. Pollutes the environment."
-	icon_state = "tesla"
+	icon_state = "nuclear"
 	max_fuel = 50000
 	fuel_per_cycle_idle = 10
 	fuel_per_cycle_active = 50
 	power_per_cycle = 300
 	var/rad_per_cycle = 30
+
 
 /obj/item/mecha_parts/mecha_equipment/generator/nuclear/generator_init()
 	fuel = new /obj/item/stack/sheet/mineral/uranium(src, 0)
@@ -534,7 +541,7 @@
 	step(E, turn(movement_dir, 180))
 	QDEL_IN(E, 5)
 
-
+/*
 /obj/item/mecha_parts/mecha_equipment/thrusters/gas
 	name = "RCS thruster package"
 	desc = "A set of thrusters that allow for exosuit movement in zero-gravity environments, by expelling gas from the internal life support tank."
@@ -557,7 +564,7 @@
 	chassis.internal_tank.air_contents.remove(move_cost)
 	generate_effect(movement_dir)
 	return TRUE
-
+*/
 
 
 /obj/item/mecha_parts/mecha_equipment/thrusters/ion //for mechs with built-in thrusters, should never really exist un-attached to a mech

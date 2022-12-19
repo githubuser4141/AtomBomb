@@ -551,6 +551,27 @@
 
 /datum/component/construction/mecha/medigax
 	result = /obj/vehicle/sealed/mecha/medical/medigax
+	base_icon = "gygax"
+
+	circuit_control = /obj/item/circuitboard/mecha/gygax/main
+	circuit_periph = /obj/item/circuitboard/mecha/gygax/peripherals
+	circuit_weapon = /obj/item/circuitboard/mecha/gygax/targeting
+
+	inner_plating = /obj/item/stack/sheet/metal
+	inner_plating_amount = 5
+
+	outer_plating=/obj/item/mecha_parts/part/medigax_armor
+	outer_plating_amount=1
+
+/datum/component/construction/mecha/medigax/action(datum/source, atom/used_atom, mob/user)
+	return check_step(used_atom,user)
+
+/datum/component/construction/mecha/medigax/custom_action(obj/item/I, mob/living/user, diff)
+	if(!..())
+		return FALSE
+
+/datum/component/construction/mecha/medigax
+	result = /obj/vehicle/sealed/mecha/medical/medigax
 	base_icon = "medigax"
 	steps = list(
 		//1

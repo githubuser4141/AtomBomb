@@ -672,7 +672,7 @@
 	if(HAS_TRAIT(src, TRAIT_MECHA_THERMAL))
 		sight |= (SEE_MOBS)
 
-	if(HAS_TRAIT(src, TRAIT_MECHA_NVG))
+	if(HAS_TRAIT(src, TRAIT_MECHA_MESON))
 		sight |= (SEE_TURFS)
 
 	if(see_override)

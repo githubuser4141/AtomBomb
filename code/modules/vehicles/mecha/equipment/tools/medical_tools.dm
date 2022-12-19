@@ -39,6 +39,7 @@
 	var/mob/living/carbon/patient = null
 	var/inject_amount = 10
 	salvageable = 0
+	equip_slot = BACK
 
 /obj/item/mecha_parts/mecha_equipment/medical/sleeper/Destroy()
 	for(var/atom/movable/AM in src)
@@ -263,6 +264,9 @@
 	var/mode = 0 //0 - fire syringe, 1 - analyze reagents.
 	range = MECHA_MELEE|MECHA_RANGED
 	equip_cooldown = 10
+	need_colorize = FALSE
+	equip_slot = BACK
+
 
 /obj/item/mecha_parts/mecha_equipment/medical/syringe_gun/Initialize()
 	. = ..()

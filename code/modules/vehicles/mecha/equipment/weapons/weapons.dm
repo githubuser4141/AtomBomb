@@ -284,9 +284,9 @@
 	fire_sound = 'sound/weapons/sound_weapons_mech_shotgun.ogg'
 	equip_cooldown = 20
 	projectile = /obj/item/projectile/bullet/scattershot
-	projectiles = 50
-	projectiles_cache = 50
-	projectiles_cache_max = 200
+	projectiles = 40
+	projectiles_cache = 40
+	projectiles_cache_max = 240
 	projectiles_per_shot = 4
 	variance = 25
 	harmful = TRUE
@@ -323,6 +323,17 @@
 	harmful = TRUE
 	ammo_type = "lmg"
 
+/obj/item/mecha_parts/mecha_equipment/weapon/ballistic/cannon
+	name = "\improper G3-S Heavy Cannon"
+	icon_state = "mecha_g3s"
+	equip_cooldown = 25
+	projectile = /obj/item/projectile/bullet/g3sgauss
+	projectiles = 15
+	projectiles_cache = 15
+	projectiles_cache_max = 60
+	projectiles_per_shot = 1
+	variance = 0
+
 /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/missile_rack
 	name = "\improper SRM-8 missile rack"
 	desc = "A weapon for combat exosuits. Launches light explosive missiles."
@@ -336,6 +347,7 @@
 	equip_cooldown = 60
 	harmful = TRUE
 	ammo_type = "missiles_he"
+	equip_slot = BACK
 
 /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/missile_rack/spacecops
 	projectiles = 420
@@ -387,6 +399,7 @@
 	projectiles_cache_max = 24
 	missile_speed = 1.5
 	equip_cooldown = 60
+	equip_slot = HAND
 	var/det_time = 20
 	ammo_type = "flashbang"
 
@@ -417,6 +430,7 @@
 	missile_speed = 1.5
 	projectile_energy_cost = 100
 	equip_cooldown = 20
+	need_colorize = FALSE
 
 /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/launcher/mousetrap_mortar
 	name = "mousetrap mortar"

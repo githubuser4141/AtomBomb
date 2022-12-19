@@ -6,12 +6,23 @@
 // Mech LMG
 
 /obj/item/projectile/bullet/lmg
-	damage = 17
+	damage = 20
 	armour_penetration = BULLET_PENETRATION_HEAVY
 	damage_threshold_penetration = BULLET_DT_PENETRATION_RIFLE
+	pixels_per_second = BULLET_SPEED_RIFLE_LIGHT
 	icon_state = "mech_autocannon"
 	light_range = 2
 	light_power = 0.5
+	light_color = "#FF7F01"
+
+/obj/item/projectile/bullet/g3sgauss
+	damage = 55
+	armour_penetration = BULLET_PENETRATION_ABSOLUTE
+	damage_threshold_penetration = BULLET_DT_PENETRATION_AP
+	pixels_per_second = BULLET_SPEED_RIFLE_MEDIUM
+	icon_state = "mech_autocannon"
+	light_range = 2.5
+	light_power = 0.75
 	light_color = "#FF7F01"
 
 // Mech FNX-99

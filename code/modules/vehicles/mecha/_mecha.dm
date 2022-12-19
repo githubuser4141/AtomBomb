@@ -18,6 +18,9 @@
 /  * Cooldown for gear is on the mech because exploits
 /  */
 
+#define HAND 1
+#define BACK 2
+
 /obj/vehicle/sealed/mecha
 	name = "mecha"
 	desc = "Exosuit"
@@ -36,6 +39,10 @@
 	light_on = FALSE
 	light_range = 4
 	force = 5
+
+	var/base_color = null
+	///Mech padding color
+	var/inherent_traits = list()
 	///What direction will the mech face when entered/powered on? Defaults to South.
 	var/dir_in = SOUTH
 	///How much energy the mech will consume each time it moves. This variable is a backup for when leg actuators affect the energy drain.
@@ -77,17 +84,11 @@
 	///What mobs are currently repairing us.
 	var/list/mob/living/repairing_mobs
 
+	var/mob_resist = 0.5
+
 	///////////ATMOS
 	///Whether we are currrently drawing from the internal tank
 	var/use_internal_tank = FALSE
-	///The setting of the valve on the internal tank
-	var/internal_tank_valve = ONE_ATMOSPHERE
-	///The internal air tank obj of the mech
-	var/obj/machinery/portable_atmospherics/canister/internal_tank
-	///Internal air mix datum
-	var/datum/gas_mixture/cabin_air
-	///The connected air port, if we have one
-	var/obj/machinery/atmospherics/components/unary/portables_connector/connected_port
 
 	///Special version of the radio, which is unsellable
 	var/obj/item/radio/mech/radio
@@ -179,10 +180,6 @@
 /obj/vehicle/sealed/mecha/Initialize()
 	. = ..()
 	add_radio()
-	add_cabin()
-	if(enclosed)
-		add_airtank()
-		RegisterSignal(src, COMSIG_MOVABLE_PRE_MOVE , .proc/disconnect_air)
 	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/play_stepsound)
 	spark_system.set_up(2, 0, src)
 	spark_system.attach(src)
@@ -219,16 +216,9 @@
 	QDEL_NULL(cell)
 	QDEL_NULL(scanmod)
 	QDEL_NULL(capacitor)
-	QDEL_NULL(internal_tank)
 	STOP_PROCESSING(SSobj, src)
 	GLOB.poi_list.Remove(src)
 	LAZYCLEARLIST(equipment)
-	if(loc)
-		loc.assume_air(cabin_air)
-		air_update_turf()
-	else
-		qdel(cabin_air)
-	cabin_air = null
 	QDEL_NULL(spark_system)
 	QDEL_NULL(smoke_system)
 
@@ -236,8 +226,29 @@
 	return ..()
 
 /obj/vehicle/sealed/mecha/update_icon()
+	overlays.Cut()
+	var/hand = 0
+	var/back = 0
+	for(var/obj/item/mecha_parts/mecha_equipment/i in equipment)
+		if(i.has_equip_overlay)
+			if(i.equip_slot == HAND && hand < 2)
+				draw_layer(i, hand)
+				hand++
+			else if(i.equip_slot == BACK && back < 2)
+				draw_layer(i, back)
+				back++
+
 	icon_state = get_mecha_occupancy_state()
 	return ..()
+
+/obj/vehicle/sealed/mecha/proc/draw_layer(obj/item/mecha_parts/mecha_equipment/equip, entry)
+	var/icon_name = "[equip.icon_state][entry ? "_r" : "_l"]"
+	var/icon/weapon = icon("icons/mecha/mecha_overlay.dmi", icon_name)
+	overlays += weapon
+	if(equip.need_colorize)
+		var/icon/padding = icon("icons/mecha/mecha_overlay.dmi", "[icon_name]_padding")
+		padding.Blend(base_color, ICON_MULTIPLY)
+		overlays += padding
 
 //override this proc if you need to split up mecha control between multiple people (see savannah_ivanov.dm)
 /obj/vehicle/sealed/mecha/auto_assign_occupant_flags(mob/M)
@@ -289,10 +300,6 @@
 ////// Helpers /////////
 ////////////////////////
 
-/obj/vehicle/sealed/mecha/proc/add_airtank()
-	internal_tank = new /obj/machinery/portable_atmospherics/canister/air(src)
-	return internal_tank
-
 ///Adds a cell, for use in Map-spawned mechs, Nuke Ops mechs, and admin-spawned mechs. Mechs built by hand will replace this.
 /obj/vehicle/sealed/mecha/proc/add_cell(obj/item/stock_parts/cell/C=null)
 	QDEL_NULL(cell)
@@ -319,14 +326,14 @@
 		capacitor = cap
 	else
 		capacitor = new /obj/item/stock_parts/capacitor/adv(src)
-
+/*
 /obj/vehicle/sealed/mecha/proc/add_cabin()
 	cabin_air = new(200)
 	cabin_air.set_temperature(T20C)
 	cabin_air.set_moles(GAS_O2,O2STANDARD*cabin_air.return_volume()/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
 	cabin_air.set_moles(GAS_N2,N2STANDARD*cabin_air.return_volume()/(R_IDEAL_GAS_EQUATION*cabin_air.return_temperature()))
 	return cabin_air
-
+*/
 /obj/vehicle/sealed/mecha/proc/add_radio()
 	radio = new(src)
 	radio.name = "[src] radio"
@@ -378,60 +385,12 @@
 
 //processing internal damage, temperature, air regulation, alert updates, lights power use.
 /obj/vehicle/sealed/mecha/process()
-	var/internal_temp_regulation = 1
 
-	if(internal_damage)
-		if(internal_damage & MECHA_INT_FIRE)
-			if(!(internal_damage & MECHA_INT_TEMP_CONTROL) && prob(5))
-				clearInternalDamage(MECHA_INT_FIRE)
-			if(internal_tank)
-				var/datum/gas_mixture/int_tank_air = internal_tank.return_air()
-				if(int_tank_air.return_pressure() > internal_tank.maximum_pressure && !(internal_damage & MECHA_INT_TANK_BREACH))
-					setInternalDamage(MECHA_INT_TANK_BREACH)
-				if(int_tank_air && int_tank_air.return_volume() > 0) //heat the air_contents
-					int_tank_air.set_temperature(min(6000+T0C, int_tank_air.return_temperature()+rand(10,15)))
-			if(cabin_air && cabin_air.return_volume()>0)
-				cabin_air.set_temperature(min(6000+T0C, cabin_air.return_temperature()+rand(10,15)))
-				if(cabin_air.return_temperature() > max_temperature/2)
-					take_damage(4/round(max_temperature/cabin_air.return_temperature(),0.1), BURN, 0, 0)
-
-		if(internal_damage & MECHA_INT_TEMP_CONTROL)
-			internal_temp_regulation = 0
-
-		if(internal_damage & MECHA_INT_TANK_BREACH) //remove some air from internal tank
-			if(internal_tank)
-				assume_air_ratio(internal_tank.return_air(), 0.1)
-
-		if(internal_damage & MECHA_INT_SHORT_CIRCUIT)
-			if(get_charge())
-				spark_system.start()
-				cell.charge -= min(20,cell.charge)
-				cell.maxcharge -= min(20,cell.maxcharge)
-
-	if(internal_temp_regulation)
-		if(cabin_air && cabin_air.return_volume() > 0)
-			var/delta = cabin_air.return_temperature() - T20C
-			cabin_air.set_temperature(cabin_air.return_temperature() - max(-10, min(10, round(delta/4,0.1))))
-
-	if(internal_tank)
-		var/datum/gas_mixture/tank_air = internal_tank.return_air()
-
-		var/release_pressure = internal_tank_valve
-		var/cabin_pressure = cabin_air.return_pressure()
-		var/pressure_delta = min(release_pressure - cabin_pressure, (tank_air.return_pressure() - cabin_pressure)/2)
-		var/transfer_moles = 0
-		if(pressure_delta > 0) //cabin pressure lower than release pressure
-			if(tank_air.return_temperature() > 0)
-				transfer_moles = pressure_delta*cabin_air.return_volume()/(cabin_air.return_temperature() * R_IDEAL_GAS_EQUATION)
-				tank_air.transfer_to(cabin_air,transfer_moles)
-		else if(pressure_delta < 0) //cabin pressure higher than release pressure
-			var/datum/gas_mixture/t_air = return_air()
-			pressure_delta = cabin_pressure - release_pressure
-			if(t_air)
-				pressure_delta = min(cabin_pressure - t_air.return_pressure(), pressure_delta)
-			if(pressure_delta > 0) //if location pressure is lower than cabin pressure
-				transfer_moles = pressure_delta*cabin_air.return_volume()/(cabin_air.return_temperature() * R_IDEAL_GAS_EQUATION)
-				cabin_air.transfer_to(t_air, transfer_moles)
+	if(internal_damage & MECHA_INT_SHORT_CIRCUIT)
+		if(get_charge())
+			spark_system.start()
+			cell.charge -= min(20,cell.charge)
+			cell.maxcharge -= min(20,cell.maxcharge)
 
 	for(var/mob/living/occupant as anything in occupants)
 		if(!enclosed && occupant?.incapacitated()) //no sides mean it's easy to just sorta fall out if you're incapacitated.
@@ -590,12 +549,6 @@
 	if(stepsound)
 		playsound(src,stepsound,40,1)
 
-/obj/vehicle/sealed/mecha/proc/disconnect_air()
-	SIGNAL_HANDLER
-	if(internal_tank.disconnect()) // Something moved us and broke connection
-		to_chat(occupants, "[icon2html(src, occupants)]<span class='warning'>Air port connection has been severed!</span>")
-		log_message("Lost connection to gas port.", LOG_MECHA)
-
 /obj/vehicle/sealed/mecha/Process_Spacemove(movement_dir = 0, continuous_move)
 	. = ..()
 	if(.)
@@ -631,11 +584,6 @@
 	if(completely_disabled)
 		return FALSE
 	if(!direction)
-		return FALSE
-	if(internal_tank?.connected_port)
-		if(TIMER_COOLDOWN_CHECK(src, COOLDOWN_MECHA_MESSAGE))
-			to_chat(occupants, "[icon2html(src, occupants)]<span class='warning'>Unable to move while connected to the air system port!</span>")
-			TIMER_COOLDOWN_START(src, COOLDOWN_MECHA_MESSAGE, 2 SECONDS)
 		return FALSE
 	if(construction_state)
 		if(TIMER_COOLDOWN_CHECK(src, COOLDOWN_MECHA_MESSAGE))
@@ -760,12 +708,8 @@
 /obj/vehicle/sealed/mecha/proc/clearInternalDamage(int_dam_flag)
 	if(internal_damage & int_dam_flag)
 		switch(int_dam_flag)
-			if(MECHA_INT_TEMP_CONTROL)
-				to_chat(occupants, "[icon2html(src, occupants)]<span class='boldnotice'>Life support system reactivated.</span>")
 			if(MECHA_INT_FIRE)
 				to_chat(occupants, "[icon2html(src, occupants)]<span class='boldnotice'>Internal fire extinguished.</span>")
-			if(MECHA_INT_TANK_BREACH)
-				to_chat(occupants, "[icon2html(src, occupants)]<span class='boldnotice'>Damaged internal tank has been sealed.</span>")
 	internal_damage &= ~int_dam_flag
 	diag_hud_set_mechstat()
 
@@ -890,39 +834,6 @@
 	pilot_mob.forceMove(get_turf(src))
 	update_icon()
 */
-
-/////////////////////////////////////
-////////  Atmospheric stuff  ////////
-/////////////////////////////////////
-
-/obj/vehicle/sealed/mecha/remove_air(amount)
-	if(use_internal_tank)
-		return cabin_air.remove(amount)
-	return ..()
-
-/obj/vehicle/sealed/mecha/remove_air_ratio(ratio)
-	if(use_internal_tank)
-		return cabin_air.remove_ratio(ratio)
-	return ..()
-
-
-/obj/vehicle/sealed/mecha/return_air()
-	if(use_internal_tank)
-		return cabin_air
-	return ..()
-
-
-/obj/vehicle/sealed/mecha/proc/return_pressure()
-	var/datum/gas_mixture/t_air = return_air()
-	if(t_air)
-		. = t_air.return_pressure()
-	return
-
-/obj/vehicle/sealed/mecha/return_temperature()
-	var/datum/gas_mixture/t_air = return_air()
-	if(t_air)
-		. = t_air.return_temperature()
-	return
 
 /obj/vehicle/sealed/mecha/mob_try_enter(mob/M)
 	if(!ishuman(M)) // no silicons or drones in mechas.
@@ -1230,6 +1141,14 @@
 		else
 			to_chat(user, "<span class='notice'>None of the equipment on this exosuit can use this ammo!</span>")
 	return FALSE
+/*
+/obj/vehicle/sealed/mecha/moved_inside(mob/living/carbon/human/H)
+	. = ..()
+	if(. && !HAS_TRAIT(H, TRAIT_NO))
+		ADD_TRAIT(H, , VEHICLE_TRAIT)
+*/
+
+//////Mechs give NVGs to occupants//////
 
 /obj/vehicle/sealed/mecha/moved_inside(mob/living/carbon/human/H)
 	. = ..()
@@ -1242,8 +1161,6 @@
 		REMOVE_TRAIT(H, TRAIT_MECHA_NVG, VEHICLE_TRAIT)
 		H.update_sight()
 	return ..()
-
-//////Mechs give NVGs to occupants//////
 
 /obj/vehicle/sealed/mecha/mmi_moved_inside(obj/item/mmi/M, mob/user)
 	. = ..()

@@ -13,6 +13,7 @@
 	toolspeed = 0.8
 	var/dam_force = 20
 	var/obj/vehicle/sealed/mecha/working/ripley/cargo_holder
+	need_colorize = FALSE
 	harmful = TRUE
 	mech_flags = EXOSUIT_MODULE_RIPLEY
 
@@ -192,6 +193,7 @@
 	energy_drain = 0
 	range = MECHA_MELEE|MECHA_RANGED
 	mech_flags = EXOSUIT_MODULE_WORKING
+	need_colorize = FALSE
 
 /obj/item/mecha_parts/mecha_equipment/extinguisher/Initialize()
 	. = ..()
@@ -257,8 +259,8 @@
 	desc = "An exosuit-mounted Rapid Construction Device."
 	icon_state = "mecha_rcd"
 	equip_cooldown = 10
-	energy_drain = 250
-	range = MECHA_MELEE|MECHA_RANGED
+	energy_drain = 100
+	range = MECHA_MELEE
 	item_flags = NO_MAT_REDEMPTION
 	var/mode = 0 //0 - deconstruct, 1 - wall or floor, 2 - airlock.
 

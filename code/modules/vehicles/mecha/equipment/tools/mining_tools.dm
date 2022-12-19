@@ -9,14 +9,14 @@
 	name = "exosuit drill"
 	desc = "Equipment for engineering and combat exosuits. This is the drill that'll pierce the heavens!"
 	icon_state = "mecha_drill"
-	equip_cooldown = 15
+	equip_cooldown = 10
 	energy_drain = 10
-	force = 15
+	force = 20
 	harmful = TRUE
 	range = MECHA_MELEE
 	tool_behaviour = TOOL_DRILL
-	toolspeed = 0.9
-	var/drill_delay = 7
+	toolspeed = 0.7
+	var/drill_delay = 5
 	var/drill_level = DRILL_BASIC
 	mech_flags = EXOSUIT_MODULE_WORKING | EXOSUIT_MODULE_COMBAT
 
@@ -111,6 +111,7 @@
 	target.visible_message("<span class='danger'>[chassis] is drilling [target] with [src]!</span>", \
 						"<span class='userdanger'>[chassis] is drilling you with [src]!</span>")
 	log_combat(user, target, "drilled", "[name]", "(INTENT: [uppertext(user.a_intent)]) (DAMTYPE: [uppertext(damtype)])")
+	/*
 	if(target.stat == DEAD && target.getBruteLoss() >= 200)
 		log_combat(user, target, "gibbed", name)
 		if(LAZYLEN(target.butcher_results) || LAZYLEN(target.guaranteed_butcher_results))
@@ -118,35 +119,35 @@
 			butchering.Butcher(chassis, target)
 		else
 			target.gib()
+	*/
+	//drill makes a hole
+	var/obj/item/bodypart/target_part = target.get_bodypart(ran_zone(BODY_ZONE_CHEST))
+	target.apply_damage(10, BRUTE, BODY_ZONE_CHEST, target.run_armor_check(target_part, "melee"))
+
+	//blood splatters
+	var/splatter_dir = get_dir(chassis, target)
+	if(isalien(target))
+		new /obj/effect/temp_visual/dir_setting/bloodsplatter/xenosplatter(target.drop_location(), splatter_dir)
 	else
-		//drill makes a hole
-		var/obj/item/bodypart/target_part = target.get_bodypart(ran_zone(BODY_ZONE_CHEST))
-		target.apply_damage(10, BRUTE, BODY_ZONE_CHEST, target.run_armor_check(target_part, "melee"))
-
-		//blood splatters
-		var/splatter_dir = get_dir(chassis, target)
-		if(isalien(target))
-			new /obj/effect/temp_visual/dir_setting/bloodsplatter/xenosplatter(target.drop_location(), splatter_dir)
+		if(ishuman(target))
+			var/mob/living/carbon/human/H = target
+			new /obj/effect/temp_visual/dir_setting/bloodsplatter(target.drop_location(), splatter_dir, H.dna.species.exotic_blood_color)
 		else
-			if(ishuman(target))
-				var/mob/living/carbon/human/H = target
-				new /obj/effect/temp_visual/dir_setting/bloodsplatter(target.drop_location(), splatter_dir, H.dna.species.exotic_blood_color)
-			else
-				new /obj/effect/temp_visual/dir_setting/bloodsplatter(target.drop_location(), splatter_dir)
+			new /obj/effect/temp_visual/dir_setting/bloodsplatter(target.drop_location(), splatter_dir)
 
-		//organs go everywhere
-		if(target_part && prob(10 * drill_level))
-			target_part.dismember(BRUTE)
+	//organs go everywhere
+	if(target_part && prob(10 * drill_level))
+		target_part.dismember(BRUTE)
 
 /obj/item/mecha_parts/mecha_equipment/drill/diamonddrill
 	name = "diamond-tipped exosuit drill"
 	desc = "Equipment for engineering and combat exosuits. This is an upgraded version of the drill that'll pierce the heavens!"
 	icon_state = "mecha_diamond_drill"
-	equip_cooldown = 10
-	drill_delay = 4
+	equip_cooldown = 8
+	drill_delay = 3
 	drill_level = DRILL_HARDENED
-	force = 15
-	toolspeed = 0.7
+	force = 23
+	toolspeed = 0.5
 
 
 /obj/item/mecha_parts/mecha_equipment/mining_scanner
